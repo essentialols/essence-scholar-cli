@@ -54,7 +54,7 @@ Essence Scholar can tailor its analysis to your research profile:
 
 ## Known limitations
 
-- **API key required**: The backend proxies to your chosen LLM provider. No free tier — you need your own key.
+- **API key always required**: The extension labels Gemini models as "Free" but this refers to Google's free tier — the backend still requires you to supply your own Gemini API key. Get one at https://aistudio.google.com/apikey (free: 15 RPM, 1M tokens/day). OpenAI and Claude keys require paid accounts.
 - **Backend dependency**: Relies on the Essence Scholar Cloud Run service (`ssrn-summarizer-backend-v1-6-1`). If the service goes offline or the URL changes, the CLI will break.
 - **SSE parsing**: The streaming response format may change across backend versions.
 - **Academic focus**: Designed for academic papers (SSRN, arXiv, journal articles). May produce suboptimal results on non-academic content.

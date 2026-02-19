@@ -362,14 +362,27 @@ def _parse_sse_stream(response) -> str:
                     break
                 try:
                     data = json.loads(data_str)
-                    # Essence Scholar streams various event types
                     if isinstance(data, dict):
+                        # Handle status events
+                        status = data.get("status", "")
+                        if status == "error":
+                            msg = data.get("message", "Unknown error")
+                            print(f"\nServer error: {msg}", file=sys.stderr)
+                            sys.exit(1)
+                        if status == "starting":
+                            print(f"  {data.get('message', '')}")
+                            continue
+                        if status == "progress":
+                            step = data.get("step", "")
+                            print(f"  [{step}] {data.get('message', '')}")
+                            continue
+
+                        # Extract text content from various possible fields
                         text = data.get("text", "") or data.get("content", "") or data.get("chunk", "")
                         if text:
                             full_text.append(text)
                             print(".", end="", flush=True)
                 except json.JSONDecodeError:
-                    # Some lines may be plain text
                     full_text.append(data_str)
 
     print()  # newline after progress dots
